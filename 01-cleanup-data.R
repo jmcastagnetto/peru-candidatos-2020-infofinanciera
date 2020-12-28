@@ -8,6 +8,12 @@ fix_dni <- function(dni) {
   sprintf("%08d", as.integer(dni))
 }
 
+fix_total <- function(total) {
+  total %>%
+    str_remove_all(",") %>%
+    as.numeric()
+}
+
 bienes <- read_csv(
   "datos/orig/candidatos 2021 bienes muebles e inmuebles - candidatos_por_bienes.csv",
   col_types =cols(
@@ -85,7 +91,18 @@ ingresos <- read_csv(
     fix_ubigeo
   ) %>%
   mutate(
-    str_documento_identidad = fix_dni(str_documento_identidad)
+    str_documento_identidad = fix_dni(str_documento_identidad),
+    total_ingresos = fix_total(total_ingresos),
+    total_declarado = sum(
+      dec_remu_bruta_publico,
+      dec_remu_bruta_privado,
+      dec_renta_individual_publico,
+      dec_renta_individual_privado,
+      dec_otro_ingreso_publico,
+      dec_otro_ingreso_privado,
+      na.rm = TRUE
+    ),
+    declarado_mayor = (total_ingresos < total_declarado)
   ) %>%
   select(
     -state
@@ -101,3 +118,4 @@ saveRDS(
   ingresos,
   file = "datos/proc/candidatos-2021-ingresos.rds"
 )
+
