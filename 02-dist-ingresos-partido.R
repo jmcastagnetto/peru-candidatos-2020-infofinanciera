@@ -2,7 +2,6 @@ library(tidyverse)
 
 ingresos <- readRDS("datos/proc/candidatos-2021-ingresos.rds")
 
-
 df <- ingresos %>%
   mutate(
     str_organizacion_politica = factor(str_organizacion_politica)
