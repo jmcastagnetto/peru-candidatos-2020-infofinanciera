@@ -39,7 +39,7 @@ por_genero <- ggplot(
     y = "",
     title = "Elecciones 2021: Distribución de ingresos (2019) declarados por candidatos - La brecha de género.",
     subtitle = "Fuente: https://twitter.com/AniversarioPeru/status/1342705785269346305",
-    caption = "@jmcastagnetto, Jesus M. Castagnetto, 2020-12-27"
+    caption = "@jmcastagnetto, Jesus M. Castagnetto, 2020-12-28"
   ) +
   theme_linedraw(16) +
   theme(
@@ -48,7 +48,6 @@ por_genero <- ggplot(
   ) +
   facet_wrap(~str_organizacion_politica, ncol = 6)
 
-por_genero
 ggsave(
   por_genero,
   filename = "plots/distribucion-ingresos-por-genero-partido.png",
