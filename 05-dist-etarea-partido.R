@@ -2,7 +2,25 @@ library(tidyverse)
 
 ingresos <- readRDS("datos/proc/candidatos-2021-ingresos.rds")
 
-df <- ingresos %>%
+bienes <- readRDS("datos/proc/candidatos-2021-bienes.rds")
+
+df <- bind_rows(
+  ingresos %>%
+    select(str_fecha_nacimiento,
+           str_apellido_paterno,
+           str_apellido_materno,
+           str_nombres,
+           str_organizacion_politica,
+           str_sexo),
+  bienes %>%
+    select(str_fecha_nacimiento,
+           str_apellido_paterno,
+           str_apellido_materno,
+           str_nombres,
+           str_organizacion_politica,
+           str_sexo)
+) %>%
+  distinct() %>%
   mutate(
     edad_anhos = 2020 - lubridate::year(str_fecha_nacimiento),
     str_organizacion_politica = factor(str_organizacion_politica),
