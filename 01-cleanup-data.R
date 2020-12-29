@@ -14,6 +14,8 @@ fix_total <- function(total) {
     as.numeric()
 }
 
+# Bienes ------------------------------------------------------------------
+
 bienes <- read_csv(
   "datos/orig/candidatos 2021 bienes muebles e inmuebles - candidatos_por_bienes.csv",
   col_types =cols(
@@ -56,6 +58,9 @@ saveRDS(
   bienes,
   file = "datos/proc/candidatos-2021-bienes.rds"
 )
+
+
+# Ingresos ----------------------------------------------------------------
 
 ingresos <- read_csv(
   "datos/orig/candidatos 2021 ingresos declarados año 2019 - candidatos_Ingresos.csv",
@@ -119,3 +124,62 @@ saveRDS(
   file = "datos/proc/candidatos-2021-ingresos.rds"
 )
 
+
+# Seleccionar y combinar --------------------------------------------------
+
+
+bienes_sel <- bienes %>%
+  select(
+    str_documento_identidad,
+    str_apellido_paterno,
+    str_apellido_paterno,
+    str_nombres,
+    str_fecha_nacimiento,
+    str_sexo,
+    str_ubigeo_nacimiento,
+    str_naci_departamento,
+    str_naci_provincia,
+    str_naci_distrito,
+    str_ubigeo_domicilio,
+    str_domi_departamento,
+    str_domi_provincia,
+    str_domi_distrito,
+    str_organizacion_politica,
+    numero_bienes,
+    valor_bienes_muebles_e_inmuebles
+  )
+
+ingresos_sel <- ingresos %>%
+  select(
+    str_documento_identidad,
+    dec_remu_bruta_publico,
+    dec_remu_bruta_privado,
+    dec_renta_individual_publico,
+    dec_renta_individual_privado,
+    dec_otro_ingreso_publico,
+    dec_otro_ingreso_privado,
+    total_ingresos
+  )
+
+combinado <- bienes_sel %>%
+  left_join(
+    ingresos_sel,
+    by = "str_documento_identidad"
+  ) %>%
+  mutate(
+    genero = if_else(
+      str_sexo == "1",
+      "Hombre",
+      "Mujer"
+    )
+  )
+
+write_csv(
+  combinado,
+  file = "datos/proc/candidatos-2021-bienes-ingresos.csv"
+)
+
+saveRDS(
+  combinado,
+  file = "datos/proc/candidatos-2021-bienes-ingresos.rds"
+)

@@ -1,6 +1,5 @@
 # Datos Financieros de Candidatos a las Elecciones Generales 2021
 
-
 Fuente original: https://twitter.com/AniversarioPeru/status/1342705785269346305
 (Obtenido de fuentes públicas del JNE)
 
