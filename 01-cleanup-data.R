@@ -47,7 +47,8 @@ bienes <- read_csv(
   ) %>%
   select(
     -state
-  )
+  ) %>%
+  distinct()
 
 write_csv(
   bienes,
@@ -111,7 +112,8 @@ ingresos <- read_csv(
   ) %>%
   select(
     -state
-  )
+  ) %>%
+  distinct()
 
 
 write_csv(
@@ -172,7 +174,8 @@ combinado <- bienes_sel %>%
       "Hombre",
       "Mujer"
     )
-  )
+  ) %>%
+  distinct()
 
 write_csv(
   combinado,
